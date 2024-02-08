@@ -23,24 +23,75 @@ def CodageEnB64(Les3Lettres):
     Decoupage = [] 
     for Letre in Les3Lettres:
         Decoupage.append(Letre)
-    caracBin1 = ord(Decoupage[0])
-    caracBin2 = ord(Decoupage[1])
-    caracBin3 = ord(Decoupage[2])
+
+    if len(Decoupage) == 2:
+        caracBin1 = ord(Decoupage[0])
+        caracBin2 = ord(Decoupage[1])
+        caracBin3 = 0x00
+        carac1_B64 = caracBin1 >> 2
+        carac2_B64 = (Normalisation((caracBin1 & 0x03), 2))   +   (Normalisation((caracBin2 >> 4), 4))                        
+        carac3_B64 = (Normalisation((caracBin2 & 0x0F), 4))   +   (Normalisation((caracBin3 >> 6), 2))
+        carac4_B64 = caracBin3 & 0x3F
+
+        print(caracBin1, caracBin2, caracBin3)
+        print(carac3_B64, carac4_B64)
+
+        carac2_B64 = int(carac2_B64, 2)
+        carac3_B64 = int(carac3_B64, 2)
     
-    carac1_B64 = caracBin1 >> 2
-    carac2_B64 = (Normalisation((caracBin1 & 0x03), 2))   +   (Normalisation((caracBin2 >> 4), 4))                        
-    carac3_B64 = (Normalisation((caracBin2 & 0x0F), 4))   +   (Normalisation((caracBin3 >> 6), 2))
-    carac4_B64 = caracBin3 & 0x3F
+
+    if len(Decoupage) == 1:
+        caracBin1 = ord(Decoupage[0])
+        caracBin2 = 0x00
+        caracBin3 = 0x00
+        carac1_B64 = caracBin1 >> 2
+        carac2_B64 = (Normalisation((caracBin1 & 0x03), 2))   +   (Normalisation((caracBin2 >> 4), 4))                        
+        carac3_B64 = (Normalisation((caracBin2 & 0x0F), 4))   +   (Normalisation((caracBin3 >> 6), 2))
+        carac4_B64 = caracBin3 & 0x3F
+
+        
+        carac2_B64 = int(carac2_B64, 2)
+        carac3_B64 = int(carac3_B64, 2)
+
     
-    carac2_B64 = int(carac2_B64, 2)
-    carac3_B64 = int(carac3_B64, 2)
+
+    if len(Decoupage) == 3:
+        caracBin1 = ord(Decoupage[0])
+        caracBin2 = ord(Decoupage[1])
+        caracBin3 = ord(Decoupage[2])
+        
+        carac1_B64 = caracBin1 >> 2
+        carac2_B64 = (Normalisation((caracBin1 & 0x03), 2))   +   (Normalisation((caracBin2 >> 4), 4))                        
+        carac3_B64 = (Normalisation((caracBin2 & 0x0F), 4))   +   (Normalisation((caracBin3 >> 6), 2))
+        carac4_B64 = caracBin3 & 0x3F
+        
+        carac2_B64 = int(carac2_B64, 2)
+        carac3_B64 = int(carac3_B64, 2)
     
+
     lettres_B64 = []
+
+
+
+    if((carac3_B64 == 0) and (carac4_B64 == 0)):
+        lettres_B64.append( tableB64[carac1_B64])
+        lettres_B64.append( tableB64[carac2_B64])
+        lettres_B64.append("=")
+        lettres_B64.append("=")
+        return(str(lettres_B64[0]) +str(lettres_B64[1]) + str(lettres_B64[2]) + str(lettres_B64[3]))
+    
+    if(carac4_B64 == 0): 
+        lettres_B64.append( tableB64[carac1_B64])
+        lettres_B64.append( tableB64[carac2_B64])
+        lettres_B64.append( tableB64[carac3_B64])
+        lettres_B64.append("=")
+        return(str(lettres_B64[0]) +str(lettres_B64[1]) + str(lettres_B64[2]) + str(lettres_B64[3]))
+    
+    
     lettres_B64.append( tableB64[carac1_B64])
     lettres_B64.append( tableB64[carac2_B64])
     lettres_B64.append( tableB64[carac3_B64])
     lettres_B64.append( tableB64[carac4_B64])
-    
     return(str(lettres_B64[0]) +str(lettres_B64[1]) + str(lettres_B64[2]) + str(lettres_B64[3]))
     
     
