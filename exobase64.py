@@ -45,31 +45,42 @@ def CodageEnB64(Les3Lettres):
     caracBin2 = ord(Decoupage[1])
     caracBin3 = ord(Decoupage[2])
 
+    print(caracBin1)
 
     print(caracBin2, caracBin3)
 
-    carac1_B64 = bin(int(caracBin1) >> 2) 
-    carac2_B64 = ((bin(int(caracBin1) & 0x02))[2:] + (bin(int(caracBin2) >> 4))[2:])   
-    carac3_B64 = (bin(int((f'{caracBin2:04b}'), 2) & 0x0F)[2:] + bin(int(f'0b{caracBin3:08b}', 2) >> 6)[2:])
-    carac4_B64 = bin((int(caracBin3) & 0x3F))
+    carac1_B64 = caracBin1 >> 2
+    carac2_B64 = str((caracBin1 & 0x03)) + str(Normalisation((caracBin2 >> 4), 4))                        
+    carac3_B64 =  str(caracBin2 & 0x0F) + str(Normalisation((caracBin3 >> 6), 2))
+    carac4_B64 = caracBin3 & 0x3F
 
-
-    print(bin(caracBin3))
-    print( int(f'{caracBin3:08b}', 2) >> 6 ) 
-
-    print(carac3_B64)
-
-
-
-    # lettres_B64 = []
+    carac2_B64 = int(carac2_B64, 2)
+    carac3_B64 = int(carac3_B64, 2)
     
-    # lettres_B64.append( tableB64[int(carac1_B64, 0)])
-    # lettres_B64.append( tableB64[int(carac2_B64, 0)])
-    # lettres_B64.append( tableB64[int(carac3_B64, 0)])
-    # lettres_B64.append( tableB64[int(carac4_B64, 0)])
+    print("Le 1", carac1_B64)      
+    print("Le 2", carac2_B64)
+    print("Le 3", carac3_B64)
+    print("Le 4", carac4_B64)
 
-    # print(lettres_B64)
+
+    lettres_B64 = []
     
+    lettres_B64.append( tableB64[carac1_B64])
+    lettres_B64.append( tableB64[carac2_B64])
+    lettres_B64.append( tableB64[carac3_B64])
+    lettres_B64.append( tableB64[carac4_B64])
+
+    print(lettres_B64)
+    
+def Normalisation(entier, longueur):
+    entierbin = bin(entier)[2:]
+    long = len(entierbin)
+    entierFinal = "0"*(longueur-long) + entierbin
+    print(entierFinal)
+    return entierFinal 
+    
+    
+
 
 InitialiserTable()
 CodageEnB64(tableau[0])
