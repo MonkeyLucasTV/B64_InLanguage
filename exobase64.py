@@ -15,21 +15,12 @@ def InitialiserTable():
 
 tableau = []
 lettres = input("Vos lettres : ")
-print(lettres)
-
-
-
-
 
 
 def CodageEnB64(Les3Lettres):
-    print(Les3Lettres)
+    print("3 lettre", Les3Lettres)
     
-    carac1_B64 = ''
-    
-    
-    
-    Decoupage = []
+    Decoupage = [] 
     for Letre in Les3Lettres:
         Decoupage.append(Letre)
     caracBin1 = ord(Decoupage[0])
@@ -37,8 +28,8 @@ def CodageEnB64(Les3Lettres):
     caracBin3 = ord(Decoupage[2])
     
     carac1_B64 = caracBin1 >> 2
-    carac2_B64 =  (Normalisation((caracBin1 & 0x03), 2) )     +   (Normalisation((caracBin2 >> 4), 4))                        
-    carac3_B64 =  (Normalisation((caracBin2 & 0x0F), 4))   +   (Normalisation((caracBin3 >> 6), 2))
+    carac2_B64 = (Normalisation((caracBin1 & 0x03), 2))   +   (Normalisation((caracBin2 >> 4), 4))                        
+    carac3_B64 = (Normalisation((caracBin2 & 0x0F), 4))   +   (Normalisation((caracBin3 >> 6), 2))
     carac4_B64 = caracBin3 & 0x3F
     
     carac2_B64 = int(carac2_B64, 2)
@@ -70,8 +61,6 @@ def CodageEntier(Leslettres):
     longLet = len(TableLettre)
     
     for i in range(longLet):
-        print("le i", i)
-        print(TableLettre)
         EnsembleLettre.append(CodageEnB64(TableLettre[i]))
     print(EnsembleLettre)
 
